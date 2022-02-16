@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Test - Diana</title>
+</head>
+<body>
+
+  <form id="math-form">
+    <p>
+      <label for="num1">Input number 1:</label>
+      <br>
+      <input type="number" id="num1" name="num1" oninput="validateInput(this.value,1)" required>
+      <br>
+      <span id="err1"></span>
+    </p>
+    <p>
+      <label for="num2">Input number 2:</label>
+      <br>
+      <input type="number" id="num2" name="num2" oninput="validateInput(this.value,2)" required>
+      <br>
+      <span id="err2"></span>
+    </p>
+    <p>
+      <label for="num3">Input number 3:</label>
+      <br>
+      <input type="number" id="num3" name="num3" oninput="validateInput(this.value,3)" required>
+      <br>
+      <span id="err3"></span>
+    </p>
+    <p>
+      <button type="submit" id="submitBtn">Submit</button>
+    </p>
+    <p id="result"></p>
+  </form>
+
+
+  <script>
+    const form = document.getElementById('math-form');
+    const result = document.getElementById('result');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      let num1 = document.getElementById('num1'),
+        num2 = document.getElementById('num2'), 
+        num3 = document.getElementById('num3');
+
+      if (num1.value && num2.value && num3.value) {
+        let average = (parseInt(num1.value) + parseInt(num2.value) + parseInt(num3.value)) / 3;
+        let arr = [parseInt(num1.value), parseInt(num2.value), parseInt(num3.value)];
+        let data = arr.sort();
+        result.innerHTML = `The average: ${average}<br>The median: ${data[1]}`;
+      }
+      else {
+        submitBtn.disabled = true;
+        resultTxt.innerHTML = 'insufficient values';
+      }
+
+    });
+
+    function validateInput(itemVal, itemId) {
+      let section = document.getElementById('err' + itemId);
+      let field = document.getElementById('num' + itemId);
+
+      if (itemVal !== '' && itemVal !== undefined) {
+        // section.innerHTML = `value: ${itemVal} from section ${itemId}`;
+
+        if (itemVal < 0) {
+          section.style.color = "red";
+          section.innerHTML = 'please enter an integer greater than 1';
+          submitBtn.disabled = true;
+
+          setTimeout(function(){
+            field.value = '';
+          },1500);
+        } else {
+          submitBtn.disabled = false;
+          section.style.color = "green";
+          section.innerHTML = 'okay';
+          setTimeout(function(){
+            section.innerHTML = '';
+          },500);
+        }
+      } else {
+        section.innerHTML = '';
+        submitBtn.disabled = true;
+      }
+    }
+  </script>
+
+</body>
+</html>
